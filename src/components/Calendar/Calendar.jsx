@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./calendar.css";
 import { observer } from "mobx-react";
 import Navigation from "../Navigation/Navigation";
@@ -8,6 +8,12 @@ import commitStore from "../../stores/commitStore";
 import dateStore from "../../stores/dateStore";
 
 const Calendar = () => {
+  const [repInfo, setRepInfo] = useState(false);
+
+  const handleClick = () => {
+    setRepInfo(!repInfo);
+  };
+
   const handleDayClick = (day) => {
     const dayCommits = commitStore.commits[day.toFormat("yyyy-LL-dd")];
     if (dayCommits && dayCommits.length > 0) {
@@ -51,23 +57,18 @@ const Calendar = () => {
     calendarRows.push(currentRow);
   }
 
-  const prevMonth = () => {
-    dateStore.prevMonth();
-  };
-
-  const nextMonth = () => {
-    dateStore.nextMonth();
-  };
-
   return (
     <div className='calendar-container'>
-      <Navigation prev={prevMonth} next={nextMonth}></Navigation>
+      <Navigation></Navigation>
       <CalendarTable
         rows={calendarRows}
         dayClick={handleDayClick}></CalendarTable>
       {commitStore.selectedCommitData && (
         <CommitData close={closeCommitData}></CommitData>
       )}
+      <span className='rep-button'>
+        <button onClick={handleClick}>Rep info</button>
+      </span>
     </div>
   );
 };

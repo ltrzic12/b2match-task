@@ -5,6 +5,17 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 
 const CalendarTable = ({ rows, dayClick }) => {
+  const { date } = useParams();
+  const [year, month] = date.split("-");
+
+  useEffect(() => {
+    if (year && month) {
+      const currentDate = dateStore.today
+        .set({ year: parseInt(year), month: parseInt(month) })
+        .startOf("month");
+      dateStore.setCurrentDate(currentDate);
+    }
+  }, [year, month]);
   return (
     <table className='calendar-table'>
       <thead>

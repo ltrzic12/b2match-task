@@ -192,10 +192,13 @@
   align-items: center;
   right: 5%;
   top: 5%;
-  border: 1px solid grey;
   width: 20px;
   height: 20px;
   padding: 1px;
+}
+
+.day-num span {
+  font-weight: 700;
 }
 
 .commit-message {
@@ -221,44 +224,4 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.rep-info {
-  position: absolute;
-  top: 3.8%;
-  left: 2%;
-}
-.rep-window {
-  position: fixed;
-  display: flex;
-  top: 30%;
-  left: 7%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(255, 255, 255);
-  padding: 20px;
-  justify-content: center;
-  max-width: 80%;
-  font-size: x-large;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  z-index: 999;
-}
-
-.rep-info.active {
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 999;
-}
-
-.rep-details-item {
-  display: flex;
-}
-
-.rep-info button {
-  background-color: transparent;
-  border: 1px solid white;
-  border-radius: 5px;
-  color: white;
-
-  text-align: center;
-  cursor: pointer;
 }

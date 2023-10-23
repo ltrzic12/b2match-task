@@ -6,9 +6,9 @@ import { DateTime } from "luxon";
 class CommitStore {
   commits = {};
   selectedCommitData = null;
-  owner = "NVIDIA";
-  repo = "TensorRT-LLM";
-  branch = "main";
+  owner = "ltrzic12";
+  repo = "vehicle-grid";
+  branch = "development";
   constructor() {
     makeObservable(this, {
       commits: observable,
@@ -62,6 +62,10 @@ class CommitStore {
       console.error(error);
     }
   };
+
+  setLoading(a) {
+    this.loading = a;
+  }
 
   setCommits(commits) {
     this.commits = commits;

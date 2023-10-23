@@ -1,6 +1,6 @@
 import { action, makeObservable, observable } from "mobx";
 import dateStore from "./dateStore";
-import axios, { Axios } from "axios";
+import axios from "axios";
 import { DateTime } from "luxon";
 
 class CommitStore {
@@ -8,16 +8,19 @@ class CommitStore {
   selectedCommitData = null;
   owner = "NVIDIA";
   repo = "TensorRT-LLM";
+  branch = "main";
   constructor() {
     makeObservable(this, {
       commits: observable,
       selectedCommitData: observable,
       owner: observable,
       repo: observable,
+      branch: observable,
       setCommits: action,
       setSelectedCommitData: action,
       setOwner: action,
       setRepo: action,
+      setBranch: action,
       fetchCommitsForMonth: action,
     });
   }
@@ -27,6 +30,7 @@ class CommitStore {
     const lastDay = dateStore.currentDate.endOf("month");
     const owner = this.owner;
     const repo = this.repo;
+    const branch = this.branch;
 
     try {
       const response = await axios.get(
@@ -35,6 +39,7 @@ class CommitStore {
           params: {
             since: firstDay.toISO(),
             until: lastDay.toISO(),
+            sha: branch,
           },
         },
       );
@@ -72,6 +77,10 @@ class CommitStore {
 
   setRepo(repo) {
     this.repo = repo;
+  }
+
+  setBranch(branch) {
+    this.branch = branch;
   }
 }
 

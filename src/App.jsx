@@ -1,11 +1,13 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Calendar from "./components/Calendar/Calendar";
+
+import CalendarPage from "./pages/CalendarPage";
 
 const App = () => {
   return (
     <div className='app'>
       <Routes>
-        <Route path={"/"} element={<Calendar></Calendar>}></Route>
+        <Route path='/' element={<CalendarPage />} />
       </Routes>
     </div>
   );

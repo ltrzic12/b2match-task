@@ -17,7 +17,7 @@ const Calendar = () => {
 
   useEffect(() => {
     const fetch = async () => {
-      commitStore.fetchCommitsForMonth();
+      await commitStore.fetchCommitsForMonth();
     };
     fetch();
   }, [dateStore.currentDate]);

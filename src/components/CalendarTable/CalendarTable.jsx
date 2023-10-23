@@ -1,6 +1,8 @@
 import { observer } from "mobx-react";
 import commitStore from "../../stores/commitStore";
 import dateStore from "../../stores/dateStore";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 const CalendarTable = ({ rows, dayClick }) => {
   return (
@@ -35,15 +37,15 @@ const CalendarTable = ({ rows, dayClick }) => {
                     <div className='day-num'>
                       <span>{day.toFormat("d")}</span>
                     </div>
-                    {dayCommits && dayCommits.length === 1 && (
+                    {dayCommits && dayCommits.length > 0 && (
                       <div className='commit-message'>
                         {dayCommits[0].commit.message}
                       </div>
                     )}
+                    {dayCommits && dayCommits.length > 1 && (
+                      <div className='commit-dot'></div>
+                    )}
                   </div>
-                  {dayCommits && dayCommits.length > 1 && (
-                    <div className='commit-dot'></div>
-                  )}
                 </td>
               );
             })}

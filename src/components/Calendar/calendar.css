@@ -4,7 +4,7 @@
   font-family: Arial, sans-serif;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+
   height: 100vh;
   display: grid;
   grid-template-rows: 10% 90%;
@@ -20,7 +20,6 @@
   align-items: center;
   justify-content: center;
   padding: 1%;
-  border-radius: 8px 8px 0 0;
 }
 
 .calendar-header button {
@@ -60,6 +59,15 @@
   table-layout: fixed;
 }
 
+.calendar-table thead {
+  height: 50px;
+}
+
+.calendar-table thead th {
+  color: rgb(55, 55, 132);
+  font-weight: 700;
+}
+
 .calendar-table td {
   cursor: pointer;
   text-align: center;
@@ -74,9 +82,17 @@
 }
 
 .calendar-day-highlight {
-  background-color: #007acc;
-  border: 1px solid red;
+  background-color: #007acc6d;
+  border: px solid red;
   color: #fff;
+}
+
+.calendar-day-highlight .day-container {
+  border: 2px solid white;
+}
+
+.calendar-day-highlight .commit-dot {
+  background-color: white;
 }
 
 .calendar-day-highlight:hover {
@@ -91,12 +107,12 @@
   width: 8px;
   height: 8px;
   background-color: #007acc;
-  border-radius: 50%; /* Makes it a circle */
+  border-radius: 50%;
   transition: transform 1s ease-in-out;
 }
 
 .calendar-table td:hover .commit-dot {
-  animation: pulse 1s infinite; /* Apply the pulse animation on hover */
+  animation: pulse 0.5s infinite;
 }
 
 @keyframes pulse {
@@ -104,9 +120,108 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(1.5); /* Increase the scale for pulsing effect */
+    transform: scale(1.5);
   }
   100% {
     transform: scale(1);
   }
+}
+
+.commit-data-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.commit-data {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 80%;
+  overflow-y: auto;
+  max-height: 80%;
+}
+
+.close-button {
+  position: absolute;
+  background-color: #007acc;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  background-color: #00588e;
+}
+
+.commit-data li {
+  list-style: none;
+  padding: 10px;
+
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.commit-data h5 {
+  font-size: 16px;
+  color: #007acc;
+  margin-bottom: 5px;
+}
+
+.commit-data p {
+  font-size: 14px;
+  color: #333;
+  margin: 0;
+}
+
+.commit-data a {
+  text-decoration: none;
+  font-size: small;
+}
+
+.day-num {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 5%;
+  top: 5%;
+  border: 1px solid grey;
+  width: 20px;
+  height: 20px;
+  padding: 1px;
+}
+
+.commit-message {
+  position: absolute;
+  display: flex;
+  bottom: 20px;
+  text-align: center;
+  padding: 5px;
+  white-space: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  max-width: 100%;
+  color: #333;
+  border: 2px solid #007acc;
+  border-radius: 2px;
+  background-color: #007acc28;
+  width: 200px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.day-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

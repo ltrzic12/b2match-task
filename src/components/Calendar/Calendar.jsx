@@ -1,77 +1,34 @@
-import React, { useState, useEffect } from "react";
-import { DateTime } from "luxon";
-import Axios from "axios";
+import React, { useEffect } from "react";
 import "./calendar.css";
+import { observer } from "mobx-react";
+import Navigation from "../Navigation/Navigation";
+import CommitData from "../CommitData/CommitData";
+import CalendarTable from "../CalendarTable/CalendarTable";
+import commitStore from "../../stores/commitStore";
+import dateStore from "../../stores/dateStore";
 
 const Calendar = () => {
-  const today = DateTime.local();
-
-  const [currentDate, setCurrentDate] = useState(today);
-  const [commits, setCommits] = useState({});
-
-  const fetchCommitsForMonth = async () => {
-    const firstDay = currentDate.startOf("month");
-    const lastDay = currentDate.endOf("month");
-    const owner = "ltrzic12";
-    const repo = "vehicle-grid";
-
-    try {
-      const response = await Axios.get(
-        `https://api.github.com/repos/${owner}/${repo}/commits`,
-        {
-          params: {
-            since: firstDay.toISO(),
-            until: lastDay.toISO(),
-          },
-        },
-      );
-
-      const commitsData = response.data;
-      const commitsByDate = {};
-
-      commitsData.forEach((commit) => {
-        const commitDate = DateTime.fromISO(
-          commit.commit.committer.date,
-        ).toFormat("yyyy-LL-dd");
-        if (!commitsByDate[commitDate]) {
-          commitsByDate[commitDate] = [];
-        }
-        commitsByDate[commitDate].push(commit);
-      });
-
-      setCommits(commitsByDate);
-    } catch (error) {
-      // Handle errors
-      console.error(error);
+  const handleDayClick = (day) => {
+    const dayCommits = commitStore.commits[day.toFormat("yyyy-LL-dd")];
+    if (dayCommits && dayCommits.length > 0) {
+      commitStore.setSelectedCommitData(dayCommits);
     }
-  };
-
-  const prevMonth = () => {
-    setCurrentDate(currentDate.minus({ months: 1 }));
-  };
-
-  const nextMonth = () => {
-    setCurrentDate(currentDate.plus({ months: 1 }));
   };
 
   useEffect(() => {
-    fetchCommitsForMonth();
-  }, [currentDate]);
+    const fetch = async () => {
+      commitStore.fetchCommitsForMonth();
+    };
+    fetch();
+  }, [dateStore.currentDate]);
 
-  const handleDayClick = (day) => {
-    const dayCommits = commits[day.toFormat("yyyy-LL-dd")];
-    if (dayCommits && dayCommits.length > 0) {
-      const commitList = dayCommits
-        .map((commit) => commit.commit.message)
-        .join("\n");
-      const commitWindow = window.open("", "_blank");
-      commitWindow.document.write(`<pre>${commitList}</pre>`);
-    }
+  const closeCommitData = () => {
+    commitStore.setSelectedCommitData(null);
   };
 
   const generateCalendar = () => {
-    const firstDay = currentDate.startOf("month");
-    const lastDay = currentDate.endOf("month");
+    const firstDay = dateStore.currentDate.startOf("month");
+    const lastDay = dateStore.currentDate.endOf("month");
     const daysInMonth = [];
 
     for (let day = firstDay; day <= lastDay; day = day.plus({ days: 1 })) {
@@ -94,50 +51,25 @@ const Calendar = () => {
     calendarRows.push(currentRow);
   }
 
+  const prevMonth = () => {
+    dateStore.prevMonth();
+  };
+
+  const nextMonth = () => {
+    dateStore.nextMonth();
+  };
+
   return (
     <div className='calendar-container'>
-      <div className='calendar-header'>
-        <button onClick={prevMonth}>Previous Month</button>
-        <span className='calendar-month'>
-          {currentDate.toFormat("MMMM yyyy")}
-        </span>
-        <button onClick={nextMonth}>Next Month</button>
-      </div>
-      <table className='calendar-table'>
-        <thead>
-          <tr>
-            <th>Sun</th>
-            <th>Mon</th>
-            <th>Tue</th>
-            <th>Wed</th>
-            <th>Thu</th>
-            <th>Fri</th>
-            <th>Sat</th>
-          </tr>
-        </thead>
-        <tbody>
-          {calendarRows.map((week, weekIndex) => (
-            <tr key={weekIndex}>
-              {week.map((day, index) => (
-                <td
-                  key={index}
-                  className={`calendar-day${
-                    day.hasSame(today, "day") ? " calendar-day-highlight" : ""
-                  }`}
-                  onClick={() => handleDayClick(day)}>
-                  {day.toFormat("d")}
-                  {commits[day.toFormat("yyyy-LL-dd")] &&
-                    commits[day.toFormat("yyyy-LL-dd")].length > 0 && (
-                      <div className='commit-dot'></div>
-                    )}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Navigation prev={prevMonth} next={nextMonth}></Navigation>
+      <CalendarTable
+        rows={calendarRows}
+        dayClick={handleDayClick}></CalendarTable>
+      {commitStore.selectedCommitData && (
+        <CommitData close={closeCommitData}></CommitData>
+      )}
     </div>
   );
 };
 
-export default Calendar;
+export default observer(Calendar);

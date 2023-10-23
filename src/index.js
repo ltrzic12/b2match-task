@@ -4,10 +4,10 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "mobx-react";
-import dateTimeData from "./stores/dateTime";
+import dateStore from "./stores/dateStore";
 
 const stores = {
-  dateTimeData,
+  dateStore,
 };
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

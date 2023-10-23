@@ -66,9 +66,6 @@ const Calendar = () => {
       {commitStore.selectedCommitData && (
         <CommitData close={closeCommitData}></CommitData>
       )}
-      <span className='rep-button'>
-        <button onClick={handleClick}>Rep info</button>
-      </span>
     </div>
   );
 };

@@ -11,7 +11,7 @@
 
 ## Introduction
 
-This is a web calendar application. Application is following chosen GitHub rep - each commit message is shown on a day of its upload. 
+This is a web calendar application. Application is following fetching data from GitHub rep (ltrzic12/vehicle-grid by default) - each commit message is shown on a day of its upload. 
 
 ## Features
 
@@ -21,7 +21,7 @@ This is a web calendar application. Application is following chosen GitHub rep -
 - "Commit dot" on days with multiple commits 
 - On click of a day with data - new window opened with more details and all available commits
 - Default rep followed in the app - ltrzic12/vehicle-grid
-- 
+- Navigate through calendar in URL (.../year-month format)
 
 ## Technologies Used
 

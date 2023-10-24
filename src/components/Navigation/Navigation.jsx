@@ -14,10 +14,10 @@ const Navigation = () => {
         }}>
         Previous Month
       </button>
+
       <span className='calendar-month'>
         {dateStore.currentDate.toFormat("MMMM yyyy")}
       </span>
-
       <button
         onClick={() => {
           const newDate = dateStore.currentDate.plus({ months: 1 });

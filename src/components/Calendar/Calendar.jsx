@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./calendar.css";
 import { observer } from "mobx-react";
 import Navigation from "../Navigation/Navigation";
@@ -8,12 +8,6 @@ import commitStore from "../../stores/commitStore";
 import dateStore from "../../stores/dateStore";
 
 const Calendar = () => {
-  const [repInfo, setRepInfo] = useState(false);
-
-  const handleClick = () => {
-    setRepInfo(!repInfo);
-  };
-
   const handleDayClick = (day) => {
     const dayCommits = commitStore.commits[day.toFormat("yyyy-LL-dd")];
     if (dayCommits && dayCommits.length > 0) {
